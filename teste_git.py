@@ -1,0 +1,1 @@
+print("Logaritmo leperiano de pi, igual a = aceita a request aí ronaldo")
