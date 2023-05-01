@@ -1,3 +1,4 @@
+import pygame as pg
 import random
 from assets.scripts.Image import *
 
@@ -36,8 +37,12 @@ class Enemy(Image):
     def set_x(self, x):
         self.rect.x = x
 
+    def get_collision_detected(self):
+        return self.collision_detected
+
     def colision_detect(self, player):
         if self.rect.colliderect(player.rect) and not self.collision_detected:
             print("Colisão detectada")
             self.collision_detected = True
             self.speed = 0
+            player.lifes.remove(player.lifes.sprites()[0])
