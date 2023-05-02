@@ -1,14 +1,14 @@
 from assets.scripts.Image import *
 
 class Player(Image):
-    points = 0
-
     def __init__(self,image, size, x, y, lifes):
         super().__init__(image, size, x, y)
         self.x = x
         self.y = y
         self.size = size
         self.lifes = lifes
+        self.points = 0
+        self.powerups_colleteds = [0,0,0]
 
     def move_left(self):
         if self.rect.x > 100:
@@ -18,6 +18,12 @@ class Player(Image):
         if self.rect.x < 600:
             self.rect.x += 100
 
+    def set_powerups_colleteds(self, index):
+        self.powerups_colleteds[index] += 1
+
+    def get_powerups_colleteds(self):
+        return self.powerups_colleteds
+    
     def check_die(self):
         if len(self.lifes) == 0:
             print('Game Over - Carregar tela de game over aqui')

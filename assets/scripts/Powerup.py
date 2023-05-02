@@ -1,25 +1,25 @@
-import pygame as pg
 import random
 from assets.scripts.Image import *
 
-class Enemy(Image):
+class Powerup(Image):
     collision_detected = False
     
-    def __init__(self, id, image, size, x, y, speed, height, positions_x):
+    def __init__(self, id, image, size, x, y, speed, height, positions_x, additional_points):
         super().__init__(image, size, x, y)
+        self.id = id
         self.rect.x = random.choice(positions_x)
         self.rect.y = y
         self.size = size
         self.speed = speed
         self.height = height
         self.positions_x = positions_x
-        self.id = id
+        self.additional_points = additional_points
 
     def update(self, player):
         self.move_y()
         self.colision_detect(player)
 
-    def disable_enemy(self):
+    def disable_powerup(self):
         self.set_speed(0)
         self.set_y(1000)
 
@@ -27,7 +27,7 @@ class Enemy(Image):
         self.rect.y += self.speed
 
         if self.get_y() > self.height + 200:
-            self.disable_enemy()
+            self.disable_powerup()
 
     def get_y(self):
         return self.rect.y
@@ -49,9 +49,10 @@ class Enemy(Image):
 
     def colision_detect(self, player):
         if self.rect.colliderect(player.rect) and not self.collision_detected:
-            print("Colisão detectada")
             self.collision_detected = True
-            
-            self.disable_enemy()
 
-            player.lifes.remove(player.lifes.sprites()[0])
+            self.disable_powerup()
+    
+            print(f'Ganhou {self.additional_points} pontos')
+            player.set_powerups_colleteds(self.id)
+     
