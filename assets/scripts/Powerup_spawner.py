@@ -9,8 +9,8 @@ class Powerup_spawner:
         self.powerup_group = pg.sprite.Group()
         self.spawn_timer = random.randrange(1905, 2008)
 
-    def update(self, player):
-        self.powerup_group.update(player)
+    def update(self, player, score):
+        self.powerup_group.update(player, score)
 
         if self.spawn_timer == 0:
             self.spawn_powerup()
