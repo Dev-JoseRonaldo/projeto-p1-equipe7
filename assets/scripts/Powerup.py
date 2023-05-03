@@ -1,5 +1,6 @@
 import random
 from assets.scripts.Image import *
+from assets.scripts.Score import *
 
 class Powerup(Image):
     collision_detected = False
@@ -15,9 +16,9 @@ class Powerup(Image):
         self.positions_x = positions_x
         self.additional_points = additional_points
 
-    def update(self, player):
+    def update(self, player, score):
         self.move_y()
-        self.colision_detect(player)
+        self.colision_detect(player, score)
 
     def disable_powerup(self):
         self.set_speed(0)
@@ -47,12 +48,15 @@ class Powerup(Image):
     def get_collision_detected(self):
         return self.collision_detected
 
-    def colision_detect(self, player):
+    def colision_detect(self, player, score):
         if self.rect.colliderect(player.rect) and not self.collision_detected:
             self.collision_detected = True
 
             self.disable_powerup()
+            score.set_additional_score_on_collect_powerup(self.additional_points)
     
             print(f'Ganhou {self.additional_points} pontos')
             player.set_powerups_colleteds(self.id)
+            score.set_additional_score_on_collect_powerup(self.additional_points)
+    
      

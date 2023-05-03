@@ -4,6 +4,7 @@ from assets.scripts.Enemy import *
 from assets.scripts.Powerup import *
 from assets.scripts.Powerup_spawner import *
 from assets.scripts.Enemy_spawner import *
+from assets.scripts.Score import *
 
 pg.init()
 
@@ -77,6 +78,11 @@ player_group = pg.sprite.Group()
 player = Player(IMAGE_PLAYER, SIZE_PLAYER, X_INITIAL, Y_INITIAL, lifes)
 player_group.add(player)
 
+# score inicial
+start_time = time.time()
+score = Score(start_time)
+current_score = score.get_score
+
 #inimigo
 
 ENEMY_POSITIONS_X = [100,200,300,400,500,600]
@@ -138,15 +144,23 @@ while running:
             elif event.key == pg.K_RIGHT:
                 player.move_right()
     
-    player.check_die()
-    
+    # score atual
+    current_score = score.get_score()
+
+
+    if player.check_die(current_score):
+        # score zera
+        start_time = time.time()
+        score = Score(start_time)
+
     #updates
-    powerup_spawner.update(player)
+    powerup_spawner.update(player, score)
     enemy_spawner.update(player)
     enemy_spawner2.update(player)
     enemy_spawner3.update(player)
     enemy_spawner4.update(player)
     enemy_spawner5.update(player)
+    score.update() # printa o score atual na tela
 
     #renderiza os elemetos em tela
     screen.fill((0, 0, 0))

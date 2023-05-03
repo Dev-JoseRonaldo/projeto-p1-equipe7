@@ -24,9 +24,9 @@ class Player(Image):
     def get_powerups_colleteds(self):
         return self.powerups_colleteds
     
-    def check_die(self):
+    def check_die(self, final_score):
         if len(self.lifes) == 0:
-            print('Game Over - Carregar tela de game over aqui')
+            print(f'Game Over - {final_score}')
 
             #codigo para retornar 3 vidas do personagem ao retartar o jogo
             IMAGE_LIFE = pg.image.load('./assets/sprites/life.png')
@@ -36,3 +36,5 @@ class Player(Image):
             for x in life_positions_x:
                 life = Image(IMAGE_LIFE, SIZE_LIFE, x, 10)
                 self.lifes.add(life)
+            
+            return True
