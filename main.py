@@ -5,6 +5,7 @@ from assets.scripts.Powerup import *
 from assets.scripts.Powerup_spawner import *
 from assets.scripts.Enemy_spawner import *
 from assets.scripts.Score import *
+from assets.screens.game_over import *
 
 pg.init()
 
@@ -131,6 +132,24 @@ running = True
 clock = pg.time.Clock()
 fps = 120
 
+# Clique mouse nos botões
+def mouse_click(position_click, postion_button_play, postion_button_menu, button_width, button_height):
+    click_x, click_y = position_click
+    button_x, button_y = postion_button_play
+    button_a, button_b = postion_button_menu
+    if button_x - (button_width//2) < click_x < button_x + (button_width//2) and button_y - (button_height//2) < click_y < button_y + (button_height//2):
+        # score zera
+        start_time = time.time()
+        score = Score(start_time)
+        return False, score
+    elif button_a - (button_width//2) < click_x < button_a + (button_width//2) and button_b - (button_height//2) < click_y < button_b + (button_height//2):
+        # score zera
+        start_time = time.time()
+        score = Score(start_time)
+        return False, score
+    return True
+
+
 while running:
     clock.tick(fps)
     
@@ -143,33 +162,42 @@ while running:
                 player.move_left()
             elif event.key == pg.K_RIGHT:
                 player.move_right()
-    
-    # score atual
-    current_score = score.get_score()
+        if event.type == pg.MOUSEBUTTONUP and GAME_OVER == True:
+            GAME_OVER, score = mouse_click(pg.mouse.get_pos(), (350, 400), (350, 480), 150, 100)
+            player.return_life()
+            player.powerups_colleteds = [0,0,0]
 
+    if GAME_OVER == False:
 
-    if player.check_die(current_score):
-        # score zera
-        start_time = time.time()
-        score = Score(start_time)
+        # score atual
+        current_score = score.get_score()
 
-    #updates
-    powerup_spawner.update(player, score)
-    enemy_spawner.update(player)
-    enemy_spawner2.update(player)
-    enemy_spawner3.update(player)
-    enemy_spawner4.update(player)
-    enemy_spawner5.update(player)
-    score.update() # printa o score atual na tela
+        GAME_OVER = player.check_die()
 
-    #renderiza os elemetos em tela
-    screen.fill((0, 0, 0))
-    player_group.draw(screen)
-    powerup_spawner.powerup_group.draw(screen)
-    enemy_spawner.enemy_group.draw(screen)
-    enemy_spawner2.enemy_group.draw(screen)
-    enemy_spawner3.enemy_group.draw(screen)
-    enemy_spawner4.enemy_group.draw(screen)
-    enemy_spawner5.enemy_group.draw(screen)
-    lifes.draw(screen)
+        #updates
+        powerup_spawner.update(player, score)
+        enemy_spawner.update(player)
+        enemy_spawner2.update(player)
+        enemy_spawner3.update(player)
+        enemy_spawner4.update(player)
+        enemy_spawner5.update(player)
+        player.get_powerups_colleteds()
+        score.update() # printa o score atual na tela
+
+        #renderiza os elemetos em tela
+        screen.fill((0, 0, 0))
+        player_group.draw(screen)
+        powerup_spawner.powerup_group.draw(screen)
+        enemy_spawner.enemy_group.draw(screen)
+        enemy_spawner2.enemy_group.draw(screen)
+        enemy_spawner3.enemy_group.draw(screen)
+        enemy_spawner4.enemy_group.draw(screen)
+        enemy_spawner5.enemy_group.draw(screen)
+        lifes.draw(screen)
+        pg.display.flip()
+    else:
+        game_over = GameOver(screen, int(current_score), player.powerups_colleteds)
+        game_over.game_over_screen()
+        
+
     pg.display.flip()

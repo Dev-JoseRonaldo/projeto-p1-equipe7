@@ -24,17 +24,18 @@ class Player(Image):
     def get_powerups_colleteds(self):
         return self.powerups_colleteds
     
-    def check_die(self, final_score):
+    def check_die(self):
         if len(self.lifes) == 0:
-            print(f'Game Over - {final_score}')
-
-            #codigo para retornar 3 vidas do personagem ao retartar o jogo
-            IMAGE_LIFE = pg.image.load('./assets/sprites/life.png')
-            SIZE_LIFE = 25
-            life_positions_x = [620, 650, 680]
-            
-            for x in life_positions_x:
-                life = Image(IMAGE_LIFE, SIZE_LIFE, x, 10)
-                self.lifes.add(life)
-            
             return True
+        return False
+
+    def return_life(self):
+        #código para retornar 3 vidas do personagem
+        IMAGE_LIFE = pg.image.load('./assets/sprites/life.png')
+        SIZE_LIFE = 25
+        life_positions_x = [620, 650, 680]
+        self.x = (700//2) - (self.size//2) #tentativa de colocar a capivara para o meio novamente
+            
+        for x in life_positions_x:
+            life = Image(IMAGE_LIFE, SIZE_LIFE, x, 10)
+            self.lifes.add(life)
