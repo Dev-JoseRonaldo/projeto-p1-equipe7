@@ -16,7 +16,6 @@ class Score():
         self.end_time = time.time()
 
     def update(self):        
-        print(f'{self.score:.4f}')
         self.end_timer()
         self.set_score()
     

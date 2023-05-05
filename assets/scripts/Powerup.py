@@ -55,7 +55,6 @@ class Powerup(Image):
             self.disable_powerup()
             score.set_additional_score_on_collect_powerup(self.additional_points)
     
-            print(f'Ganhou {self.additional_points} pontos')
             player.set_powerups_colleteds(self.id)
             score.set_additional_score_on_collect_powerup(self.additional_points)
     

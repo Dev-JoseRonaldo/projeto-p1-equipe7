@@ -5,6 +5,7 @@ from assets.scripts.Powerup import *
 from assets.scripts.Powerup_spawner import *
 from assets.scripts.Enemy_spawner import *
 from assets.scripts.Score import *
+from assets.scripts.Text import *
 from assets.screens.game_over import *
 
 pg.init()
@@ -25,8 +26,8 @@ lifes = pg.sprite.Group()
 life_positions_x = [620, 650, 680]
 
 for x in life_positions_x:
-    life = Image(IMAGE_LIFE, SIZE_LIFE, x, 10)
-    lifes.add(life)
+    life = Image(IMAGE_LIFE, SIZE_LIFE, x, 20)
+    lifes.add(life) 
 
 #powerups
 POWERUP_SPEED = 3.5
@@ -70,19 +71,24 @@ POWERUPS_MOCK = [{
 powerup_spawner = Powerup_spawner(POWERUPS_MOCK)
 
 #player
-IMAGE_PLAYER = pg.image.load('./assets/sprites/capibara.png')
-SIZE_PLAYER = 50
+IMAGE_PLAYER = pg.image.load('./assets/sprites/capibara1.png')
+IMAGE_PLAYER2 = pg.image.load('./assets/sprites/capibara2.png')
+SIZE_PLAYER = 75
 X_INITIAL = WIDTH//2 - SIZE_PLAYER//2
 Y_INITIAL = 600
 
 player_group = pg.sprite.Group()
-player = Player(IMAGE_PLAYER, SIZE_PLAYER, X_INITIAL, Y_INITIAL, lifes)
+player = Player(IMAGE_PLAYER, IMAGE_PLAYER2, SIZE_PLAYER, X_INITIAL, Y_INITIAL, lifes)
 player_group.add(player)
 
 # score inicial
 start_time = time.time()
 score = Score(start_time)
 current_score = score.get_score
+SIZE_POWERUP_UI = 30
+apple_image =  Image(pg.image.load('./assets/sprites/powerups/apple.png'), SIZE_POWERUP_UI, WIDTH/2 - SIZE_POWERUP_UI*3, 20)
+avocado_image =  Image(pg.image.load('./assets/sprites/powerups/avocado.png'), SIZE_POWERUP_UI, WIDTH/2, 20)
+watermelon_image =  Image(pg.image.load('./assets/sprites/powerups/watermelon.png'), SIZE_POWERUP_UI, WIDTH/2 + SIZE_POWERUP_UI*3, 20)
 
 #inimigo
 
@@ -130,7 +136,8 @@ enemy_spawner5 = Enemy_spawner(ENEMYS_MOCK)
 
 running = True
 clock = pg.time.Clock()
-fps = 120
+fps = 144
+last_update_time = pg.time.get_ticks()
 
 # Clique mouse nos botões
 def mouse_click(position_click, postion_button_play, postion_button_menu, button_width, button_height):
@@ -183,6 +190,18 @@ while running:
         enemy_spawner5.update(player)
         player.get_powerups_colleteds()
         score.update() # printa o score atual na tela
+        score_text = text(30, 10, 5, int(current_score), "topleft", (255,255,255))
+        apple_count = text(25, WIDTH/2 - 75, 7, f'x{player.powerups_colleteds[0]}', "topleft", (255,255,255))
+        avocado_count = text(25, WIDTH/2 + 20, 7, f'x{player.powerups_colleteds[1]}', "topleft", (255,255,255))
+        watermelon_count = text(25, WIDTH/2 + 115, 7, f'x{player.powerups_colleteds[2]}', "topleft", (255,255,255))
+
+        current_time = pg.time.get_ticks()
+        time_elapsed = current_time - last_update_time
+        if time_elapsed > 200:
+        # atualiza o sprite
+            player.update()
+            last_update_time = current_time
+
 
         #renderiza os elemetos em tela
         screen.fill((0, 0, 0))
@@ -193,6 +212,13 @@ while running:
         enemy_spawner3.enemy_group.draw(screen)
         enemy_spawner4.enemy_group.draw(screen)
         enemy_spawner5.enemy_group.draw(screen)
+        score_text.blit(screen)
+        apple_image.blit(screen)
+        apple_count.blit(screen)
+        avocado_image.blit(screen)
+        avocado_count.blit(screen)
+        watermelon_image.blit(screen)
+        watermelon_count.blit(screen)
         lifes.draw(screen)
         pg.display.flip()
     else:

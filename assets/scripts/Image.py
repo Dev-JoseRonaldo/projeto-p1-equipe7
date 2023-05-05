@@ -11,3 +11,6 @@ class Image(pg.sprite.Sprite):
 
         self.rect = self.image.get_rect()
         self.rect.center = [x, y]
+
+    def blit(self, screen_name):
+        screen_name.blit(self.image, self.rect)

@@ -49,7 +49,6 @@ class Enemy(Image):
 
     def colision_detect(self, player):
         if self.rect.colliderect(player.rect) and not self.collision_detected:
-            print("Colisão detectada")
             self.collision_detected = True
             
             self.disable_enemy()
