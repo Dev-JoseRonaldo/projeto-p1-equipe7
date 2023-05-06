@@ -6,7 +6,9 @@ from assets.scripts.Powerup_spawner import *
 from assets.scripts.Enemy_spawner import *
 from assets.scripts.Score import *
 from assets.scripts.Text import *
+from assets.scripts.Button import *
 from assets.screens.game_over import *
+from assets.screens.menu import *
 
 pg.init()
 
@@ -16,7 +18,47 @@ HEIGHT = 700
 screen = pg.display.set_mode((WIDTH, HEIGHT))
 pg.display.set_caption("Game p1")
 
+#define telas abertas
+MENU = True
 GAME_OVER = False
+
+#variáveis tela menu 
+pos_x_game_title1 = 220 #mudar resolução aqui 
+pos_y_game_title1 = 160 #mudar resolução aqui 
+pos_x_game_title2 = 300 #mudar resolução aqui 
+pos_y_game_title2 = 245 #mudar resolução aqui 
+width_menu_button = 150
+height_menu_button = 100
+pos_x_play_menu = 270 #mudar resolução aqui 
+pos_y_play_menu = 340 #mudar resolução aqui 
+pos_x_end_menu = 270 #mudar resolução aqui 
+pos_y_end_menu = 420 #mudar resolução aqui 
+
+#variáveis tela game over
+width_game_over_button = 150
+height_game_over_button = 100
+width_powerup_img = 40
+height_powerup_img = 40
+pos_x_title_game_over = 200 #mudar resolução aqui 
+pos_y_title_game_over = 160 #mudar resolução aqui 
+pos_x_message_score = 260 #mudar resolução aqui 
+pos_y_message_score = 245 #mudar resolução aqui 
+pos_x_image_powerup1 = 180 #mudar resolução aqui 
+pos_x_image_powerup2 = 300 #mudar resolução aqui 
+pos_x_image_powerup3 = 420 #mudar resolução aqui 
+pos_y_image_powerup1 = 290 #mudar resolução aqui 
+pos_y_image_powerup2 = 290 #mudar resolução aqui 
+pos_y_image_powerup3 = 290 #mudar resolução aqui 
+pos_x_label_powerup1 = 230 #mudar resolução aqui 
+pos_x_label_powerup2 = 350 #mudar resolução aqui 
+pos_x_label_powerup3 = 470 #mudar resolução aqui 
+pos_y_label_powerup1 = 290 #mudar resolução aqui 
+pos_y_label_powerup2 = 290 #mudar resolução aqui 
+pos_y_label_powerup3 = 290 #mudar resolução aqui 
+pos_x_restart_game_over = 270 #mudar resolução aqui 
+pos_y_restart_game_over = 400 #mudar resolução aqui 
+pos_x_menu_game_over = 270 #mudar resolução aqui 
+pos_y_menu_game_over = 480 #mudar resolução aqui 
 
 # Vidas
 IMAGE_LIFE = pg.image.load('./assets/sprites/life.png')
@@ -139,24 +181,6 @@ clock = pg.time.Clock()
 fps = 144
 last_update_time = pg.time.get_ticks()
 
-# Clique mouse nos botões
-def mouse_click(position_click, postion_button_play, postion_button_menu, button_width, button_height):
-    click_x, click_y = position_click
-    button_x, button_y = postion_button_play
-    button_a, button_b = postion_button_menu
-    if button_x - (button_width//2) < click_x < button_x + (button_width//2) and button_y - (button_height//2) < click_y < button_y + (button_height//2):
-        # score zera
-        start_time = time.time()
-        score = Score(start_time)
-        return False, score
-    elif button_a - (button_width//2) < click_x < button_a + (button_width//2) and button_b - (button_height//2) < click_y < button_b + (button_height//2):
-        # score zera
-        start_time = time.time()
-        score = Score(start_time)
-        return False, score
-    return True
-
-
 while running:
     clock.tick(fps)
     
@@ -169,12 +193,20 @@ while running:
                 player.move_left()
             elif event.key == pg.K_RIGHT:
                 player.move_right()
-        if event.type == pg.MOUSEBUTTONUP and GAME_OVER == True:
-            GAME_OVER, score = mouse_click(pg.mouse.get_pos(), (350, 400), (350, 480), 150, 100)
-            player.return_life()
-            player.powerups_colleteds = [0,0,0]
+        elif event.type == pg.MOUSEBUTTONUP:
+            if MENU == True and GAME_OVER == False:
+                click_menu = Button(pg.mouse.get_pos(), (350, pos_y_play_menu), (350, pos_y_end_menu), width_menu_button, height_menu_button, 0)
+                MENU, running = click_menu.mouse_click_menu()
+            elif GAME_OVER == True:
+                player.return_life()
+                player.powerups_colleteds = [0,0,0]
+                click_game_over = Button(pg.mouse.get_pos(), (350, pos_y_restart_game_over), (350, pos_y_menu_game_over), width_game_over_button, height_game_over_button, current_score) #mudar resolução aqui (no 350, colocar em uma posição que só alcance a área do botão para mudar de tela)
+                GAME_OVER, MENU, score = click_game_over.mouse_click_game_over()
 
-    if GAME_OVER == False:
+    if MENU == True and GAME_OVER == False:
+        menu = Menu(screen, pos_x_game_title1, pos_y_game_title1, pos_x_game_title2, pos_y_game_title2, width_menu_button, height_menu_button, pos_x_play_menu, pos_y_play_menu, pos_x_end_menu, pos_y_end_menu)
+        menu.menu_screen()
+    elif MENU == False and GAME_OVER == False:
 
         # score atual
         current_score = score.get_score()
@@ -202,7 +234,6 @@ while running:
             player.update()
             last_update_time = current_time
 
-
         #renderiza os elemetos em tela
         screen.fill((0, 0, 0))
         player_group.draw(screen)
@@ -221,9 +252,7 @@ while running:
         watermelon_count.blit(screen)
         lifes.draw(screen)
         pg.display.flip()
-    else:
-        game_over = GameOver(screen, int(current_score), player.powerups_colleteds)
+    else:     
+        game_over = GameOver(screen, int(current_score), player.powerups_colleteds, width_game_over_button, height_game_over_button, width_powerup_img, height_powerup_img, pos_x_title_game_over, pos_y_title_game_over,pos_x_message_score, pos_y_message_score, pos_x_image_powerup1, pos_x_image_powerup2, pos_x_image_powerup3, pos_y_image_powerup1, pos_y_image_powerup2, pos_y_image_powerup3, pos_x_label_powerup1, pos_x_label_powerup2, pos_x_label_powerup3, pos_y_label_powerup1, pos_y_label_powerup2, pos_y_label_powerup3, pos_x_restart_game_over, pos_y_restart_game_over, pos_x_menu_game_over, pos_y_menu_game_over)
         game_over.game_over_screen()
-        
-
     pg.display.flip()
