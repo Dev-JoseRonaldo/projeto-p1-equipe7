@@ -1,8 +1,9 @@
+from assets.scripts.Animation import *
 from assets.scripts.Image import *
 
-class Player(Image):
-    def __init__(self,image, size, x, y, lifes):
-        super().__init__(image, size, x, y)
+class Player(Animacao):
+    def __init__(self,image, image2, size, x, y, lifes):
+        super().__init__(image, image2, size, x, y)
         self.x = x
         self.y = y
         self.size = size
