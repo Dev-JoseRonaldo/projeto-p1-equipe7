@@ -9,16 +9,16 @@ class Enemy_spawner:
         self.enemy_group = pg.sprite.Group()
         self.spawn_timer = random.randrange(50, 550)
 
-    def update(self, player):
-        self.enemy_group.update(player)
+    def update(self, player, speed):
+        self.enemy_group.update(player, speed)
 
         if self.spawn_timer == 0:
-            self.spawn_enemy()
+            self.spawn_enemy(speed)
             self.spawn_timer = random.randrange(250, 550)
         else:
             self.spawn_timer -= 1
 
-    def spawn_enemy(self):
+    def spawn_enemy(self, speed):
         #escolhendo um inimigo aleatoriamente
         enemy = random.choices(self.enemys)[0]
 
@@ -32,7 +32,7 @@ class Enemy_spawner:
             ENEMY_POSITION_X = enemy['positions_x']
             self.lasts_drawn.clear()
 
-        new_enemy = Enemy(enemy['id'], pg.image.load(enemy['image']), enemy['size'], enemy['x'], enemy['y'], enemy['speed'], enemy['height'], ENEMY_POSITION_X)
+        new_enemy = Enemy(enemy['id'], pg.image.load(enemy['image']), enemy['size'], enemy['x'], enemy['y'], speed, enemy['height'], ENEMY_POSITION_X)
 
         self.lasts_drawn.append(new_enemy.get_x())
         self.enemy_group = pg.sprite.Group(new_enemy)

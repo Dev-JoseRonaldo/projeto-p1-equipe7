@@ -9,18 +9,18 @@ class Powerup_spawner:
         self.powerup_group = pg.sprite.Group()
         self.spawn_timer = random.randrange(1905, 2008)
 
-    def update(self, player, score):
-        self.powerup_group.update(player, score)
+    def update(self, player, score, speed):
+        self.powerup_group.update(player, score, speed)
 
         if self.spawn_timer == 0:
-            self.spawn_powerup()
+            self.spawn_powerup(speed)
             self.spawn_timer = random.randrange(1905, 2008)
         else:
             self.spawn_timer -= 1
 
-    def spawn_powerup(self):
+    def spawn_powerup(self, speed):
         powerup = random.choices(self.powerups, weights=[60,20,10])[0]
         index = self.powerups.index(powerup)
-        new_powerup = Powerup(powerup['id'], pg.image.load(powerup['image']), powerup['size'], powerup['x'], powerup['y'], powerup['speed'], powerup['height'], powerup['positions_x'], powerup['additional_points'])
+        new_powerup = Powerup(powerup['id'], pg.image.load(powerup['image']), powerup['size'], powerup['x'], powerup['y'], speed, powerup['height'], powerup['positions_x'], powerup['additional_points'])
         
         self.powerup_group = pg.sprite.Group(new_powerup)
