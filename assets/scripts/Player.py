@@ -8,15 +8,14 @@ class Player(Animacao):
         self.y = y
         self.size = size
         self.lifes = lifes
-        self.points = 0
         self.powerups_colleteds = [0,0,0]
 
-    def move_left(self):
-        if self.rect.x > 100:
+    def move_left(self, width_screen):
+        if self.rect.x > 200:
             self.rect.x -= 100
 
-    def move_right(self):
-        if self.rect.x < 600:
+    def move_right(self, width_screen):
+        if self.rect.x < width_screen - 200:
             self.rect.x += 100
 
     def set_powerups_colleteds(self, index):
@@ -30,13 +29,17 @@ class Player(Animacao):
             return True
         return False
 
-    def return_life(self):
-        #código para retornar 3 vidas do personagem
+    def reset_data(self, width_screen):
+        #reset lifes
         IMAGE_LIFE = pg.image.load('./assets/sprites/life.png')
         SIZE_LIFE = 25
-        life_positions_x = [620, 650, 680]
-        self.x = (700//2) - (self.size//2) #tentativa de colocar a capivara para o meio novamente
+        life_positions_x = [720, 750, 780]
             
         for x in life_positions_x:
-            life = Image(IMAGE_LIFE, SIZE_LIFE, x, 10)
+            life = Image(IMAGE_LIFE, SIZE_LIFE, x, 20)
             self.lifes.add(life)
+
+        self.rect.x = (width_screen / 2) - (self.size / 2) #tentativa de colocar a capivara para o meio novamente
+
+        #reset powerups
+        self.powerups_colleteds = [0,0,0]
