@@ -12,7 +12,6 @@ class Speed:
         if score_value > 0:
             speed_upgraded = self.initial_speed + score_value//2000 * self.increase_value
             if self.speed != speed_upgraded:
-                print(f'era {self.speed} agora virou {speed_upgraded}')
                 self.speed = speed_upgraded
 
     def get_speed(self):

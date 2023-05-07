@@ -69,7 +69,7 @@ lifes = pg.sprite.Group()
 
 # velocidade inicial do game
 initial_speed = 4
-increase_value = 0.2  # é somado a velocidade conforme o score aumenta
+increase_value = 0.5  # é somado a velocidade conforme o score aumenta
 speed = Speed(initial_speed, increase_value)
 game_speed = speed.get_speed()
 
@@ -246,7 +246,7 @@ while running:
             last_update_time = current_time
 
         if scroll <= bg_heigh*3/4:
-            scroll += 4
+            scroll += speed.get_speed()
         else:
             scroll = 0
         
