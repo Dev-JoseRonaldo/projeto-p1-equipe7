@@ -193,7 +193,7 @@ while running:
             running = False
         elif event.type == pg.KEYDOWN:
             if event.key == pg.K_LEFT:
-                player.move_left(WIDTH)
+                player.move_left()
             elif event.key == pg.K_RIGHT:
                 player.move_right(WIDTH)
         elif event.type == pg.MOUSEBUTTONUP:
