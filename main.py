@@ -71,9 +71,9 @@ lifes = pg.sprite.Group()
 initial_speed = 4
 increase_value = 0.2  # é somado a velocidade conforme o score aumenta
 speed = Speed(initial_speed, increase_value)
+game_speed = speed.get_speed()
 
 #powerups
-POWERUP_SPEED = speed.get_speed()
 POWERUP_POSITIONS_X = [100,200,300,400,500,600]
 
 POWERUPS_MOCK = [{
@@ -82,7 +82,7 @@ POWERUPS_MOCK = [{
                 'size': 50,
                 'x': POWERUP_POSITIONS_X[0], 
                 'y': -100, 
-                'speed': POWERUP_SPEED, 
+                'speed': game_speed, 
                 'height': HEIGHT, 
                 'positions_x': POWERUP_POSITIONS_X, 
                 'additional_points': 250
@@ -93,7 +93,7 @@ POWERUPS_MOCK = [{
                 'size': 50,
                 'x': POWERUP_POSITIONS_X[0], 
                 'y': -100, 
-                'speed': POWERUP_SPEED, 
+                'speed': game_speed, 
                 'height': HEIGHT, 
                 'positions_x': POWERUP_POSITIONS_X, 
                 'additional_points': 500
@@ -104,7 +104,7 @@ POWERUPS_MOCK = [{
                 'size': 50,
                 'x': POWERUP_POSITIONS_X[0], 
                 'y': -100, 
-                'speed': POWERUP_SPEED, 
+                'speed': game_speed, 
                 'height': HEIGHT, 
                 'positions_x': POWERUP_POSITIONS_X, 
                 'additional_points': 1000
@@ -137,7 +137,6 @@ watermelon_image =  Image(pg.image.load('./assets/sprites/powerups/watermelon.pn
 #inimigo
 
 ENEMY_POSITIONS_X = [100,200,300,400,500,600]
-ENEMY_SPEED = speed.get_speed()
 
 ENEMYS_MOCK = [
     {
@@ -146,7 +145,7 @@ ENEMYS_MOCK = [
         'size': 75,
         'x': ENEMY_POSITIONS_X[0], 
         'y': -100, 
-        'speed': ENEMY_SPEED, 
+        'speed': game_speed, 
         'height': HEIGHT, 
         'positions_x': ENEMY_POSITIONS_X, 
     },
@@ -156,7 +155,7 @@ ENEMYS_MOCK = [
         'size': 75,
         'x': ENEMY_POSITIONS_X[0], 
         'y': -100, 
-        'speed': ENEMY_SPEED, 
+        'speed': game_speed, 
         'height': HEIGHT, 
         'positions_x': ENEMY_POSITIONS_X, 
     },
@@ -166,7 +165,7 @@ ENEMYS_MOCK = [
         'size': 75,
         'x': ENEMY_POSITIONS_X[0], 
         'y': -100, 
-        'speed': ENEMY_SPEED, 
+        'speed': game_speed, 
         'height': HEIGHT, 
         'positions_x': ENEMY_POSITIONS_X, 
     },
@@ -199,7 +198,7 @@ while running:
             running = False
         elif event.type == pg.KEYDOWN:
             if event.key == pg.K_LEFT:
-                player.move_left(WIDTH)
+                player.move_left()
             elif event.key == pg.K_RIGHT:
                 player.move_right(WIDTH)
         elif event.type == pg.MOUSEBUTTONUP:
@@ -209,7 +208,7 @@ while running:
             elif GAME_OVER == True:
                 player.reset_data(WIDTH)
                 click_game_over = Button(pg.mouse.get_pos(), (450, pos_y_restart_game_over), (450, pos_y_menu_game_over), width_game_over_button, height_game_over_button, current_score)
-                GAME_OVER, MENU, score = click_game_over.mouse_click_game_over()
+                GAME_OVER, MENU = click_game_over.mouse_click_game_over()
             # score zera
             start_time = time.time()
             score = Score(start_time, initial_speed)

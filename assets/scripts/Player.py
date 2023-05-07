@@ -10,7 +10,7 @@ class Player(Animacao):
         self.lifes = lifes
         self.powerups_colleteds = [0,0,0]
 
-    def move_left(self, width_screen):
+    def move_left(self):
         if self.rect.x > 200:
             self.rect.x -= 100
 
