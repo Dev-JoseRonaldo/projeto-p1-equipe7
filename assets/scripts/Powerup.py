@@ -1,6 +1,7 @@
 import random
 from assets.scripts.Image import *
 from assets.scripts.Score import *
+from assets.scripts.Speed import *
 
 class Powerup(Image):
     collision_detected = False
@@ -16,16 +17,17 @@ class Powerup(Image):
         self.positions_x = positions_x
         self.additional_points = additional_points
 
-    def update(self, player, score):
-        self.move_y()
+    def update(self, player, score, speed):
+        self.move_y(speed)
         self.colision_detect(player, score)
 
     def disable_powerup(self):
         self.set_speed(0)
         self.set_y(1000)
 
-    def move_y(self):
-        self.rect.y += self.speed
+    def move_y(self, speed):
+        speed_value = speed.get_speed()
+        self.rect.y += speed.get_speed()
 
         if self.get_y() > self.height + 200:
             self.disable_powerup()

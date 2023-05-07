@@ -14,29 +14,17 @@ class Button():
         button_x, button_y = self.postion_button_play
         button_a, button_b = self.postion_button_menu
         if button_x - (self.button_width//2) < click_x < button_x + (self.button_width//2) and button_y - (self.button_height//2) < click_y < button_y + (self.button_height//2):
-            # score zera
-            start_time = time.time()
-            score = Score(start_time)
-            return False, False, score
+            return False, False
         elif button_a - (self.button_width//2) < click_x < button_a + (self.button_width//2) and button_b - (self.button_height//2) < click_y < button_b + (self.button_height//2):
-            # score zera
-            start_time = time.time()
-            score = Score(start_time)
-            return False, True, score
-        return True, False, self.score
+            return False, True
+        return True, False
     
     def mouse_click_menu(self):
         click_x, click_y = self.position_click
         button_x, button_y = self.postion_button_play
         button_a, button_b = self.postion_button_menu
         if button_x - (self.button_width//2) < click_x < button_x + (self.button_width//2) and button_y - (self.button_height//2) < click_y < button_y + (self.button_height//2):
-            # score zera
-            start_time = time.time()
-            score = Score(start_time)
             return False, True
         elif button_a - (self.button_width//2) < click_x < button_a + (self.button_width//2) and button_b - (self.button_height//2) < click_y < button_b + (self.button_height//2):
-            # score zera
-            start_time = time.time()
-            score = Score(start_time)
             return True, False
         return True, True
