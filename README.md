@@ -9,15 +9,42 @@
 - Luiz Henrique Brito
 - Mariana Marinho da Silva Andrade
 - Vitória Beatriz Alexandre Silva 
+
 <br>
      
 ## 2) Link para repositório git
   
    https://github.com/Dev-JoseRonaldo/projeto-p1-equipe7
 
-     
+<br>
 
-## 3) A organização do código; 
+## 3) Como rodar o projeto
+
+### Pré-requisitos
+
+Antes de baixar o projeto você vai precisar ter instalado na sua máquina as seguintes ferramentas:
+
+* [Python 3.9 ou superior](https://www.python.org/downloads/)
+* [Pygame](https://www.pygame.org/news)
+
+### Em seguida:
+
+```bash
+# Clone o repositório
+$ git clone https://github.com/Dev-JoseRonaldo/projeto-p1-equipe7.git
+
+# Abrir o projeto
+Abra a pasta clonada em seu editor de código favorito.
+
+# Iniciar o jogo
+Execute o arquivo main.py presente na raiz do repositório.
+
+# O seu editor de código rodará o jogo em uma nova janela.
+```
+
+<br>
+
+## 4) A organização do código; 
 <br>
 Para a organização do código, seguimos uma estrutura com arquivo main.py, arquivo README.md e pastas. O arquivo main.py foi utilizado para ser o arquivo principal do código, com todos os elementos e funcionalidades sendo chamados dentro do mesmo.  
 
@@ -49,7 +76,7 @@ As pastas armazenam as diferentes classes e imagens. Dentro da pasta “assets�
 
 <br>
 
-## 4) Ferramentas, bibliotecas, frameworks utilizados com as respectivas justificativas para o uso;  
+## 5) Ferramentas, bibliotecas, frameworks utilizados com as respectivas justificativas para o uso;  
 
 - `pygame`: Utilizamos o pygame pois ele fornece diversas ferramentas e recursos integrados para a criação dos jogos 2D. Além de sua facilidade de uso para a criação de jogos por iniciantes em programação. 
 
@@ -61,7 +88,7 @@ As pastas armazenam as diferentes classes e imagens. Dentro da pasta “assets�
 
 <br>
 
-## 5) A divisão de trabalho dentro do grupo (quem fez o que); 
+## 6) A divisão de trabalho dentro do grupo (quem fez o que); 
 
 `Luiz`: Classe de animação (Animacao), classe de texto(text) e relatório
 
@@ -77,7 +104,7 @@ As pastas armazenam as diferentes classes e imagens. Dentro da pasta “assets�
 
  <br>   
 
-## 6) Conceitos que foram apresentados durante a disciplina e utilizados no projeto (indicando onde foram usados);    
+## 7) Conceitos que foram apresentados durante a disciplina e utilizados no projeto (indicando onde foram usados);    
 
 Programação orientada a objetos, condicionais, estruturas de repetição, funções, listas, dicionarios.
 
@@ -85,7 +112,7 @@ Usamos POO, e seus 3 principais conceitos (encapsulamento, herança e polimorfis
 Condicionais e estruturas de repetição foram usadas em diversas partes do código para limitar certas funcionalidades a certas situações, em geral, foram estruturas indispensáveis para a construção de toda a lógica do jogo.   
 <br>
 
-## 7) Os desafios e erros enfrentados no decorrer do projeto e as lições aprendidas. 
+## 8) Os desafios e erros enfrentados no decorrer do projeto e as lições aprendidas. 
 
 - Falta de conhecimento de git/github; Enfrentamos algumas dificuldades para usar e entender os comandos do git. Entretanto, com a prática, tudo foi ficando mais fácil ao decorrer do projeto. Ou seja, a prática é fundamental para fixar esses comandos. 
 
@@ -95,19 +122,19 @@ Condicionais e estruturas de repetição foram usadas em diversas partes do cód
 
  <br>
 
-## 8) Qual foi o maior erro cometido durante o projeto? Como vocês lidaram com ele? 
+## 9) Qual foi o maior erro cometido durante o projeto? Como vocês lidaram com ele? 
 
 Organização e distribuição de tarefas de acordo com o tempo que tinhamos para desenvolver o projeto e com a quantidade de tarefas a serem distribuídas para as pessoas do grupo, o que gerou um pouco de atrasos no andamento inicial do projeto. Tentamos distribuir as tarefas de acordo com a disponibilidade de cada um e nos ajudamos quando alguma tarefa do projeto estava pendente. 
 
 <br>
 
-## 9) Qual foi o maior desafio enfrentado durante o projeto? Como vocês lidaram com ele? 
+## 10) Qual foi o maior desafio enfrentado durante o projeto? Como vocês lidaram com ele? 
 
 Estruturar o código em POO: Assistimos vários vídeos no youtube que pudessem nos ajudar com a refatoração do código e também conversávamos entre nós para implementar o código da melhor forma possível. 
 
 <br>        
 
-## 10) Quais as lições aprendidas durante o projeto? 
+## 11) Quais as lições aprendidas durante o projeto? 
 
 - É muito importante planejar um projeto com antecedência, dividir nosso projeto em sprints e tarefas de cada pessoa foi muito importante para que pudéssemos concluir o projeto no prazo determinado.  
 
@@ -128,7 +155,7 @@ Estruturar o código em POO: Assistimos vários vídeos no youtube que pudessem 
  <br>
  <br>
 
-## 11) Capturas de tela do sistema funcionando para compor a galeria de projetos 
+## 12) Capturas de tela do sistema funcionando para compor a galeria de projetos 
 <br>
 
 ### <p align="center">Tela de Menu </p>
