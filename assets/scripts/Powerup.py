@@ -17,9 +17,9 @@ class Powerup(Image):
         self.positions_x = positions_x
         self.additional_points = additional_points
 
-    def update(self, player, score, speed):
+    def update(self, player, score, speed, sound):
         self.move_y(speed)
-        self.colision_detect(player, score)
+        self.colision_detect(player, score, sound)
 
     def disable_powerup(self):
         self.set_speed(0)
@@ -45,14 +45,16 @@ class Powerup(Image):
         self.rect.x = x
     
     def set_speed(self, speed):
-        self.speed = speed
+        self.speed = speed 
 
     def get_collision_detected(self):
         return self.collision_detected
 
-    def colision_detect(self, player, score):
+    def colision_detect(self, player, score, sound):
         if self.rect.colliderect(player.rect) and not self.collision_detected:
             self.collision_detected = True
+
+            sound.play()
 
             self.disable_powerup()
             score.set_additional_score_on_collect_powerup(self.additional_points)
