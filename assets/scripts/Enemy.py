@@ -1,6 +1,7 @@
 import pygame as pg
 import random
 from assets.scripts.Image import *
+from assets.scripts.Speed import *
 
 class Enemy(Image):
     collision_detected = False
@@ -15,16 +16,17 @@ class Enemy(Image):
         self.positions_x = positions_x
         self.id = id
 
-    def update(self, player):
-        self.move_y()
+    def update(self, player, speed):
+        self.move_y(speed)
         self.colision_detect(player)
 
     def disable_enemy(self):
         self.set_speed(0)
         self.set_y(1000)
 
-    def move_y(self):
-        self.rect.y += self.speed
+    def move_y(self, speed):
+        speed_value = speed.get_speed()
+        self.rect.y += speed_value
 
         if self.get_y() > self.height + 200:
             self.disable_enemy()

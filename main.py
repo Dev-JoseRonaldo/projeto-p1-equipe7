@@ -7,6 +7,7 @@ from assets.scripts.Enemy_spawner import *
 from assets.scripts.Score import *
 from assets.scripts.Text import *
 from assets.scripts.Button import *
+from assets.scripts.Speed import *
 from assets.screens.game_over import *
 from assets.screens.menu import *
 
@@ -66,8 +67,13 @@ SIZE_LIFE = 25
 
 lifes = pg.sprite.Group()
 
+# velocidade inicial do game
+initial_speed = 4
+increase_value = 0.5  # é somado a velocidade conforme o score aumenta
+speed = Speed(initial_speed, increase_value)
+game_speed = speed.get_speed()
+
 #powerups
-POWERUP_SPEED = 4
 POWERUP_POSITIONS_X = [100,200,300,400,500,600]
 
 POWERUPS_MOCK = [{
@@ -76,10 +82,10 @@ POWERUPS_MOCK = [{
                 'size': 50,
                 'x': POWERUP_POSITIONS_X[0], 
                 'y': -100, 
-                'speed': POWERUP_SPEED, 
+                'speed': game_speed, 
                 'height': HEIGHT, 
                 'positions_x': POWERUP_POSITIONS_X, 
-                'additional_points': 2500
+                'additional_points': 250
             },
             {
                 'id': 1,
@@ -87,10 +93,10 @@ POWERUPS_MOCK = [{
                 'size': 50,
                 'x': POWERUP_POSITIONS_X[0], 
                 'y': -100, 
-                'speed': POWERUP_SPEED, 
+                'speed': game_speed, 
                 'height': HEIGHT, 
                 'positions_x': POWERUP_POSITIONS_X, 
-                'additional_points': 5000
+                'additional_points': 500
             },
             {
                 'id': 2,
@@ -98,10 +104,10 @@ POWERUPS_MOCK = [{
                 'size': 50,
                 'x': POWERUP_POSITIONS_X[0], 
                 'y': -100, 
-                'speed': POWERUP_SPEED, 
+                'speed': game_speed, 
                 'height': HEIGHT, 
                 'positions_x': POWERUP_POSITIONS_X, 
-                'additional_points': 10000
+                'additional_points': 1000
             }
 ]
 
@@ -121,8 +127,8 @@ player.reset_data(WIDTH)
 
 # score inicial
 start_time = time.time()
-score = Score(start_time)
-current_score = score.get_score
+score = Score(start_time, initial_speed)
+current_score = score.get_score()
 SIZE_POWERUP_UI = 30
 apple_image =  Image(pg.image.load('./assets/sprites/powerups/apple.png'), SIZE_POWERUP_UI, WIDTH/2 - SIZE_POWERUP_UI*3, 20)
 avocado_image =  Image(pg.image.load('./assets/sprites/powerups/avocado.png'), SIZE_POWERUP_UI, WIDTH/2, 20)
@@ -131,7 +137,6 @@ watermelon_image =  Image(pg.image.load('./assets/sprites/powerups/watermelon.pn
 #inimigo
 
 ENEMY_POSITIONS_X = [100,200,300,400,500,600]
-ENEMY_SPEED = 4
 
 ENEMYS_MOCK = [
     {
@@ -140,7 +145,7 @@ ENEMYS_MOCK = [
         'size': 75,
         'x': ENEMY_POSITIONS_X[0], 
         'y': -100, 
-        'speed': ENEMY_SPEED, 
+        'speed': game_speed, 
         'height': HEIGHT, 
         'positions_x': ENEMY_POSITIONS_X, 
     },
@@ -150,7 +155,7 @@ ENEMYS_MOCK = [
         'size': 75,
         'x': ENEMY_POSITIONS_X[0], 
         'y': -100, 
-        'speed': ENEMY_SPEED, 
+        'speed': game_speed, 
         'height': HEIGHT, 
         'positions_x': ENEMY_POSITIONS_X, 
     },
@@ -160,7 +165,7 @@ ENEMYS_MOCK = [
         'size': 75,
         'x': ENEMY_POSITIONS_X[0], 
         'y': -100, 
-        'speed': ENEMY_SPEED, 
+        'speed': game_speed, 
         'height': HEIGHT, 
         'positions_x': ENEMY_POSITIONS_X, 
     },
@@ -203,7 +208,10 @@ while running:
             elif GAME_OVER == True:
                 player.reset_data(WIDTH)
                 click_game_over = Button(pg.mouse.get_pos(), (450, pos_y_restart_game_over), (450, pos_y_menu_game_over), width_game_over_button, height_game_over_button, current_score)
-                GAME_OVER, MENU, score = click_game_over.mouse_click_game_over()
+                GAME_OVER, MENU = click_game_over.mouse_click_game_over()
+            # score zera
+            start_time = time.time()
+            score = Score(start_time, initial_speed)
 
     if MENU == True and GAME_OVER == False:
         menu = Menu(screen, pos_x_game_title1, pos_y_game_title1, pos_x_game_title2, pos_y_game_title2, width_menu_button, height_menu_button, pos_x_play_menu, pos_y_play_menu, pos_x_end_menu, pos_y_end_menu)
@@ -216,14 +224,15 @@ while running:
         GAME_OVER = player.check_die()
 
         #updates
-        powerup_spawner.update(player, score)
-        enemy_spawner.update(player)
-        enemy_spawner2.update(player)
-        enemy_spawner3.update(player)
-        enemy_spawner4.update(player)
-        enemy_spawner5.update(player)
+        speed.update(score)
+        powerup_spawner.update(player, score, speed)
+        enemy_spawner.update(player, speed)
+        enemy_spawner2.update(player, speed)
+        enemy_spawner3.update(player, speed)
+        enemy_spawner4.update(player, speed)
+        enemy_spawner5.update(player, speed)
         player.get_powerups_colleteds()
-        score.update() # printa o score atual na tela
+        score.update(speed) # printa o score atual na tela
         score_text = text(30, 120, 5, int(current_score), "topleft", (0,0,0))
         apple_count = text(25, WIDTH/2 - 75, 7, f'x{player.powerups_colleteds[0]}', "topleft", (0,0,0))
         avocado_count = text(25, WIDTH/2 + 15, 7, f'x{player.powerups_colleteds[1]}', "topleft", (0,0,0))
@@ -237,7 +246,7 @@ while running:
             last_update_time = current_time
 
         if scroll <= bg_heigh*3/4:
-            scroll += 4
+            scroll += speed.get_speed()
         else:
             scroll = 0
         
