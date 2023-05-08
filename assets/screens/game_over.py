@@ -39,19 +39,19 @@ class GameOver():
             message_screen = f'{message}'
             message_complete = message_font.render(message_screen, True, color)
             return message_complete
-    
-        self.screen.fill((255,255,255)) #colocar background
+
+        self.screen.blit(pygame.image.load(f'assets/sprites/bg-menu-gameover.png').convert_alpha(), (0, 0))
 
         #botões
-        img_restart_button = pygame.image.load('./assets/sprites/botao.png')
-        img_menu_button = pygame.image.load('./assets/sprites/botao.png')
+        img_restart_button = pygame.image.load('./assets/sprites/restart-button.png')
+        img_menu_button = pygame.image.load('./assets/sprites/menu-button.png')
 
         restart = pygame.transform.scale(img_restart_button, (self.width_button,self.height_button))
         menu = pygame.transform.scale(img_menu_button, (self.width_button,self.height_button))
 
         #coletáveis
         img_powerup1 = pygame.image.load('./assets/sprites/powerups/apple.png')
-        img_powerup2 = pygame.image.load('./assets/sprites/powerups/avocado.png')
+        img_powerup2 = pygame.image.load('./assets/sprites/powerups/blueberry.png')
         img_powerup3 = pygame.image.load('./assets/sprites/powerups/watermelon.png')
 
         powerup1 = pygame.transform.scale(img_powerup1, (self.width_powerup,self.height_powerup))
@@ -59,11 +59,11 @@ class GameOver():
         powerup3 = pygame.transform.scale(img_powerup3, (self.width_powerup,self.height_powerup))
 
         #mensagens
-        message_game_over = message_screen('GAME OVER', 50, (0,0,0))
+        message_game_over = message_screen('GAME OVER', 60, (0,0,0))
         message_score = message_screen(f'Score: {self.score}', 30, (0,0,0)) #para o scolore colocar varíavel de pontos no local do 1000 
-        message_powerup1 = message_screen(f'x {self.powerups[0]}', 30, (0,0,0)) #colocar varíavel de pontos no local do 00 
-        message_powerup2 = message_screen(f'x {self.powerups[1]}', 30, (0,0,0)) #colocar varíavel de pontos no local do 00 
-        message_powerup3 = message_screen(f'x {self.powerups[2]}', 30, (0,0,0)) #colocar varíavel de pontos no local do 00 
+        message_powerup1 = message_screen(f'x{self.powerups[0]}', 30, (0,0,0)) #colocar varíavel de pontos no local do 00 
+        message_powerup2 = message_screen(f'x{self.powerups[1]}', 30, (0,0,0)) #colocar varíavel de pontos no local do 00 
+        message_powerup3 = message_screen(f'x{self.powerups[2]}', 30, (0,0,0)) #colocar varíavel de pontos no local do 00 
 
         #apresenta na tela
         self.screen.blit(message_game_over, (self.pos_x_game_over,self.pos_y_game_over))

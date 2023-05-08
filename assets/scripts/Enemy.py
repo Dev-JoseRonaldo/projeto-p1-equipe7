@@ -55,4 +55,5 @@ class Enemy(Image):
             
             self.disable_enemy()
 
-            player.lifes.remove(player.lifes.sprites()[0])
+            if len(player.lifes) > 0:
+                player.lifes.remove(player.lifes.sprites()[0])

@@ -7,14 +7,20 @@ class Enemy_spawner:
     def __init__(self, enemys):
         self.enemys = enemys
         self.enemy_group = pg.sprite.Group()
-        self.spawn_timer = random.randrange(50, 550)
+        self.spawn_timer = random.randrange(50, 300)
 
     def update(self, player, speed):
         self.enemy_group.update(player, speed)
-
         if self.spawn_timer == 0:
             self.spawn_enemy(speed)
-            self.spawn_timer = random.randrange(250, 550)
+            if speed.get_speed() >= 8:
+                self.spawn_timer = random.randrange(100, 200)
+            elif speed.get_speed() >= 10:
+                self.spawn_timer = random.randrange(80, 150)
+            elif speed.get_speed() >= 13:
+                self.spawn_timer = random.randrange(50, 100)
+            else: 
+                self.spawn_timer = random.randrange(200, 300)
         else:
             self.spawn_timer -= 1
 

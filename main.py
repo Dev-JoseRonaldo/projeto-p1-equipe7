@@ -24,42 +24,42 @@ MENU = True
 GAME_OVER = False
 
 #variáveis tela menu 
-pos_x_game_title1 = 320 #mudar resolução aqui 
-pos_y_game_title1 = 160 #mudar resolução aqui 
-pos_x_game_title2 = 400 #mudar resolução aqui 
-pos_y_game_title2 = 245 #mudar resolução aqui 
-width_menu_button = 150
+pos_x_game_title1 = 250
+pos_y_game_title1 = 130
+pos_x_game_title2 = 380
+pos_y_game_title2 = 220
+width_menu_button = 100
 height_menu_button = 100
-pos_x_play_menu = 370 #mudar resolução aqui 
-pos_y_play_menu = 340 #mudar resolução aqui 
-pos_x_end_menu = 370 #mudar resolução aqui 
-pos_y_end_menu = 420 #mudar resolução aqui 
+pos_x_play_menu = 320
+pos_y_play_menu = 340
+pos_x_end_menu = 450
+pos_y_end_menu = 340
 
 #variáveis tela game over
-width_game_over_button = 150
+width_game_over_button = 100
 height_game_over_button = 100
 width_powerup_img = 40
 height_powerup_img = 40
-pos_x_title_game_over = 300 #mudar resolução aqui 
-pos_y_title_game_over = 160 #mudar resolução aqui 
-pos_x_message_score = 360 #mudar resolução aqui 
-pos_y_message_score = 245 #mudar resolução aqui 
-pos_x_image_powerup1 = 280 #mudar resolução aqui 
-pos_x_image_powerup2 = 400 #mudar resolução aqui 
-pos_x_image_powerup3 = 520 #mudar resolução aqui 
-pos_y_image_powerup1 = 290 #mudar resolução aqui 
-pos_y_image_powerup2 = 290 #mudar resolução aqui 
-pos_y_image_powerup3 = 290 #mudar resolução aqui 
-pos_x_label_powerup1 = 330 #mudar resolução aqui 
-pos_x_label_powerup2 = 450 #mudar resolução aqui 
-pos_x_label_powerup3 = 570 #mudar resolução aqui 
-pos_y_label_powerup1 = 290 #mudar resolução aqui 
-pos_y_label_powerup2 = 290 #mudar resolução aqui 
-pos_y_label_powerup3 = 290 #mudar resolução aqui 
-pos_x_restart_game_over = 370 #mudar resolução aqui 
-pos_y_restart_game_over = 400 #mudar resolução aqui 
-pos_x_menu_game_over = 370 #mudar resolução aqui 
-pos_y_menu_game_over = 480 #mudar resolução aqui 
+pos_x_title_game_over = 250
+pos_y_title_game_over = 140
+pos_x_message_score = 360
+pos_y_message_score = 225
+pos_x_image_powerup1 = 290
+pos_x_image_powerup2 = 400
+pos_x_image_powerup3 = 510
+pos_y_image_powerup1 = 280
+pos_y_image_powerup2 = 280
+pos_y_image_powerup3 = 280
+pos_x_label_powerup1 = 330
+pos_x_label_powerup2 = 440
+pos_x_label_powerup3 = 550
+pos_y_label_powerup1 = 280
+pos_y_label_powerup2 = 280
+pos_y_label_powerup3 = 280
+pos_x_restart_game_over = 320
+pos_y_restart_game_over = 340
+pos_x_menu_game_over = 450
+pos_y_menu_game_over = 340
 
 # Vidas
 IMAGE_LIFE = pg.image.load('./assets/sprites/life.png')
@@ -89,8 +89,8 @@ POWERUPS_MOCK = [{
             },
             {
                 'id': 1,
-                'image': './assets/sprites/powerups/avocado.png', 
-                'size': 50,
+                'image': './assets/sprites/powerups/blueberry.png', 
+                'size': 60,
                 'x': POWERUP_POSITIONS_X[0], 
                 'y': -100, 
                 'speed': game_speed, 
@@ -131,7 +131,7 @@ score = Score(start_time, initial_speed)
 current_score = score.get_score()
 SIZE_POWERUP_UI = 30
 apple_image =  Image(pg.image.load('./assets/sprites/powerups/apple.png'), SIZE_POWERUP_UI, WIDTH/2 - SIZE_POWERUP_UI*3, 20)
-avocado_image =  Image(pg.image.load('./assets/sprites/powerups/avocado.png'), SIZE_POWERUP_UI, WIDTH/2, 20)
+blueberry_image =  Image(pg.image.load('./assets/sprites/powerups/blueberry.png'), SIZE_POWERUP_UI, WIDTH/2, 20)
 watermelon_image =  Image(pg.image.load('./assets/sprites/powerups/watermelon.png'), SIZE_POWERUP_UI, WIDTH/2 + SIZE_POWERUP_UI*3, 20)
 
 #inimigo
@@ -142,7 +142,7 @@ ENEMYS_MOCK = [
     {
         'id': 0,
         'image': './assets/sprites/enemys/trunk.png', 
-        'size': 75,
+        'size': 100,
         'x': ENEMY_POSITIONS_X[0], 
         'y': -100, 
         'speed': game_speed, 
@@ -161,8 +161,8 @@ ENEMYS_MOCK = [
     },
     {
         'id': 2,
-        'image': './assets/sprites/enemys/enemy3.png', 
-        'size': 75,
+        'image': './assets/sprites/enemys/tree.png', 
+        'size': 100,
         'x': ENEMY_POSITIONS_X[0], 
         'y': -100, 
         'speed': game_speed, 
@@ -176,6 +176,9 @@ enemy_spawner2 = Enemy_spawner(ENEMYS_MOCK)
 enemy_spawner3 = Enemy_spawner(ENEMYS_MOCK)
 enemy_spawner4 = Enemy_spawner(ENEMYS_MOCK)
 enemy_spawner5 = Enemy_spawner(ENEMYS_MOCK)
+enemy_spawner6 = Enemy_spawner(ENEMYS_MOCK)
+enemy_spawner7 = Enemy_spawner(ENEMYS_MOCK)
+enemy_spawner8 = Enemy_spawner(ENEMYS_MOCK)
 
 running = True
 clock = pg.time.Clock()
@@ -203,11 +206,11 @@ while running:
                 player.move_right(WIDTH)
         elif event.type == pg.MOUSEBUTTONUP:
             if MENU == True and GAME_OVER == False:
-                click_menu = Button(pg.mouse.get_pos(), (450, pos_y_play_menu), (450, pos_y_end_menu), width_menu_button, height_menu_button, 0)
+                click_menu = Button(pg.mouse.get_pos(), (pos_x_play_menu + width_menu_button/2, pos_y_play_menu + height_menu_button/2), (pos_x_end_menu + width_menu_button/2, pos_y_end_menu + height_menu_button/2), width_menu_button, height_menu_button, 0)
                 MENU, running = click_menu.mouse_click_menu()
             elif GAME_OVER == True:
                 player.reset_data(WIDTH)
-                click_game_over = Button(pg.mouse.get_pos(), (450, pos_y_restart_game_over), (450, pos_y_menu_game_over), width_game_over_button, height_game_over_button, current_score)
+                click_game_over = Button(pg.mouse.get_pos(), (pos_x_restart_game_over + width_game_over_button/2 , pos_y_restart_game_over + height_game_over_button/2), (pos_x_menu_game_over + width_game_over_button/2, pos_y_menu_game_over + height_game_over_button/2), width_game_over_button, height_game_over_button, current_score)
                 GAME_OVER, MENU = click_game_over.mouse_click_game_over()
             # score zera
             start_time = time.time()
@@ -226,16 +229,23 @@ while running:
         #updates
         speed.update(score)
         powerup_spawner.update(player, score, speed)
+
         enemy_spawner.update(player, speed)
         enemy_spawner2.update(player, speed)
         enemy_spawner3.update(player, speed)
         enemy_spawner4.update(player, speed)
         enemy_spawner5.update(player, speed)
+
+        if(speed.get_speed() >= 10):
+            enemy_spawner6.update(player, speed)
+            enemy_spawner7.update(player, speed)
+            enemy_spawner8.update(player, speed)
+
         player.get_powerups_colleteds()
         score.update(speed) # printa o score atual na tela
         score_text = text(30, 120, 5, int(current_score), "topleft", (0,0,0))
         apple_count = text(25, WIDTH/2 - 75, 7, f'x{player.powerups_colleteds[0]}', "topleft", (0,0,0))
-        avocado_count = text(25, WIDTH/2 + 15, 7, f'x{player.powerups_colleteds[1]}', "topleft", (0,0,0))
+        blueberry_count = text(25, WIDTH/2 + 15, 7, f'x{player.powerups_colleteds[1]}', "topleft", (0,0,0))
         watermelon_count = text(25, WIDTH/2 + 110, 7, f'x{player.powerups_colleteds[2]}', "topleft", (0,0,0))
 
         current_time = pg.time.get_ticks()
@@ -260,11 +270,18 @@ while running:
         enemy_spawner3.enemy_group.draw(screen)
         enemy_spawner4.enemy_group.draw(screen)
         enemy_spawner5.enemy_group.draw(screen)
+
+
+        if(speed.get_speed() >= 10):
+            enemy_spawner6.enemy_group.draw(screen)
+            enemy_spawner7.enemy_group.draw(screen)
+            enemy_spawner8.enemy_group.draw(screen)
+
         score_text.blit(screen)
         apple_image.blit(screen)
         apple_count.blit(screen)
-        avocado_image.blit(screen)
-        avocado_count.blit(screen)
+        blueberry_image.blit(screen)
+        blueberry_count.blit(screen)
         watermelon_image.blit(screen)
         watermelon_count.blit(screen)
         lifes.draw(screen)

@@ -24,18 +24,18 @@ class Menu():
             message_complete = message_font.render(message_screen, True, color)
             return message_complete
         
-        self.screen.fill((255,255,255)) #colocar background
+        self.screen.blit(pygame.image.load(f'assets/sprites/bg-menu-gameover.png').convert_alpha(), (0, 0))
 
         #botões
-        img_play_button = pygame.image.load('./assets/sprites/botao.png')
-        img_end_button = pygame.image.load('./assets/sprites/botao.png')
+        img_play_button = pygame.image.load('./assets/sprites/play-button.png')
+        img_end_button = pygame.image.load('./assets/sprites/close-button.png')
 
         play = pygame.transform.scale(img_play_button, (self.width_button,self.height_button))
         end = pygame.transform.scale(img_end_button, (self.width_button,self.height_button))
 
         #mensagens
-        message_game_title1 = message_screen('A Fuga de', 50, (0,0,0))
-        message_game_title2 = message_screen('Filó', 50, (0,0,0))
+        message_game_title1 = message_screen('A Fuga de', 75, (0,0,0))
+        message_game_title2 = message_screen('Filó', 75, (0,0,0))
 
         #apresenta na tela
         self.screen.blit(message_game_title1, (self.pos_x_game_title1,self.pos_y_game_title1))

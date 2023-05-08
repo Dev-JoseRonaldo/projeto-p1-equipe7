@@ -10,8 +10,8 @@ class Speed:
     def set_speed(self, score):
         score_value = score.get_score()
         if score_value > 0:
-            speed_upgraded = self.initial_speed + score_value//2000 * self.increase_value
-            if self.speed != speed_upgraded:
+            speed_upgraded = int(self.initial_speed + score_value//2000 * self.increase_value)
+            if self.speed != speed_upgraded and speed_upgraded < 15:
                 self.speed = speed_upgraded
 
     def get_speed(self):
