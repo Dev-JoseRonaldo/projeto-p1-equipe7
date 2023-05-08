@@ -16,9 +16,9 @@ class Enemy(Image):
         self.positions_x = positions_x
         self.id = id
 
-    def update(self, player, speed):
+    def update(self, player, speed, sound):
         self.move_y(speed)
-        self.colision_detect(player)
+        self.colision_detect(player, sound)
 
     def disable_enemy(self):
         self.set_speed(0)
@@ -49,11 +49,13 @@ class Enemy(Image):
     def get_collision_detected(self):
         return self.collision_detected
 
-    def colision_detect(self, player):
+    def colision_detect(self, player, sound):
         if self.rect.colliderect(player.rect) and not self.collision_detected:
             self.collision_detected = True
             
             self.disable_enemy()
+
+            sound.play()
 
             if len(player.lifes) > 0:
                 player.lifes.remove(player.lifes.sprites()[0])

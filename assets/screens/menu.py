@@ -24,7 +24,7 @@ class Menu():
             message_complete = message_font.render(message_screen, True, color)
             return message_complete
         
-        self.screen.blit(pygame.image.load(f'assets/sprites/bg-menu-gameover.png').convert_alpha(), (0, 0))
+        self.screen.blit(pygame.image.load(f'assets/sprites/bg-menu.png').convert_alpha(), (0, 0))
 
         #botões
         img_play_button = pygame.image.load('./assets/sprites/play-button.png')

@@ -11,7 +11,27 @@ from assets.scripts.Speed import *
 from assets.screens.game_over import *
 from assets.screens.menu import *
 
+#carrega os sons do jogo
+def load_sounds():
+    enemyhit = pg.mixer.Sound('./assets/sounds/enemy_hit.wav')
+    getfood = pg.mixer.Sound('./assets/sounds/get_food.wav')
+    gameover = pg.mixer.Sound('./assets/sounds/game_over.wav')
+    menu_som = pg.mixer.Sound('./assets/sounds/menu_som.wav')
+    music = pg.mixer.Sound('./assets/sounds/background_music.mp3')
+
+    music.play(-1)
+    music.set_volume(0.4)
+    gameover.set_volume(0.4)
+    enemyhit.set_volume(1)
+
+    return (enemyhit, getfood, gameover, menu_som, music)
+
 pg.init()
+pg.mixer.init()
+
+(enemyhit, getfood, gameover, menu_som, music) = load_sounds()
+
+tocando_music = True
 
 #tela
 WIDTH = 896
@@ -195,6 +215,7 @@ scroll = 0
 while running:
     clock.tick(fps)
 
+
     #movimentação do personagem
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -208,6 +229,12 @@ while running:
             if MENU == True and GAME_OVER == False:
                 click_menu = Button(pg.mouse.get_pos(), (pos_x_play_menu + width_menu_button/2, pos_y_play_menu + height_menu_button/2), (pos_x_end_menu + width_menu_button/2, pos_y_end_menu + height_menu_button/2), width_menu_button, height_menu_button, 0)
                 MENU, running = click_menu.mouse_click_menu()
+
+                music.stop()
+                gameover.stop()
+                music.play(-1)
+                tocando_music = True
+
             elif GAME_OVER == True:
                 player.reset_data(WIDTH)
                 click_game_over = Button(pg.mouse.get_pos(), (pos_x_restart_game_over + width_game_over_button/2 , pos_y_restart_game_over + height_game_over_button/2), (pos_x_menu_game_over + width_game_over_button/2, pos_y_menu_game_over + height_game_over_button/2), width_game_over_button, height_game_over_button, current_score)
@@ -216,11 +243,18 @@ while running:
             start_time = time.time()
             score = Score(start_time, initial_speed)
 
-    if MENU == True and GAME_OVER == False:
+    if (MENU == True or score.get_score() == 0) and tocando_music == False:
+        music.stop()
+        gameover.stop()
+        music.play(-1)
+        tocando_music = True
+
+    if MENU == True and GAME_OVER == False:    
         menu = Menu(screen, pos_x_game_title1, pos_y_game_title1, pos_x_game_title2, pos_y_game_title2, width_menu_button, height_menu_button, pos_x_play_menu, pos_y_play_menu, pos_x_end_menu, pos_y_end_menu)
         menu.menu_screen()
-    elif MENU == False and GAME_OVER == False:
 
+    
+    elif MENU == False and GAME_OVER == False:
         # score atual
         current_score = score.get_score()
 
@@ -228,18 +262,18 @@ while running:
 
         #updates
         speed.update(score)
-        powerup_spawner.update(player, score, speed)
+        powerup_spawner.update(player, score, speed, getfood)
 
-        enemy_spawner.update(player, speed)
-        enemy_spawner2.update(player, speed)
-        enemy_spawner3.update(player, speed)
-        enemy_spawner4.update(player, speed)
-        enemy_spawner5.update(player, speed)
+        enemy_spawner.update(player, speed, enemyhit)
+        enemy_spawner2.update(player, speed, enemyhit)
+        enemy_spawner3.update(player, speed, enemyhit)
+        enemy_spawner4.update(player, speed, enemyhit)
+        enemy_spawner5.update(player, speed, enemyhit)
 
         if(speed.get_speed() >= 10):
-            enemy_spawner6.update(player, speed)
-            enemy_spawner7.update(player, speed)
-            enemy_spawner8.update(player, speed)
+            enemy_spawner6.update(player, speed, enemyhit)
+            enemy_spawner7.update(player, speed, enemyhit)
+            enemy_spawner8.update(player, speed, enemyhit)
 
         player.get_powerups_colleteds()
         score.update(speed) # printa o score atual na tela
@@ -287,7 +321,12 @@ while running:
         lifes.draw(screen)
         
         pg.display.flip()
-    else:     
+
+    elif GAME_OVER == True and MENU == False: 
         game_over = GameOver(screen, int(current_score), player.powerups_colleteds, width_game_over_button, height_game_over_button, width_powerup_img, height_powerup_img, pos_x_title_game_over, pos_y_title_game_over,pos_x_message_score, pos_y_message_score, pos_x_image_powerup1, pos_x_image_powerup2, pos_x_image_powerup3, pos_y_image_powerup1, pos_y_image_powerup2, pos_y_image_powerup3, pos_x_label_powerup1, pos_x_label_powerup2, pos_x_label_powerup3, pos_y_label_powerup1, pos_y_label_powerup2, pos_y_label_powerup3, pos_x_restart_game_over, pos_y_restart_game_over, pos_x_menu_game_over, pos_y_menu_game_over)
         game_over.game_over_screen()
+
+        music.stop()
+        gameover.play()
+        tocando_music = False
     pg.display.flip()
